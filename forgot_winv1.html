@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Invoice Forgot Password</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="forgot_winv">
+        <form id = "winv_forgot_form" action="{{url_for('forgot_winv') }}"  method = "POST" >
+            <h2>Forgot Password</h2>
+            <h4>( Enter your E-Mail Address )</h4>
+            <div class="input-box">
+                <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                <input type="email" required id="email" name = "work_email">
+                <label for="email">Email</label>
+            </div>
+            <input type="submit" class="button" value = "Mail me OTP" name = "submit_button" ></input>   
+            <!--button class="button"><a onclick="showToast(successmsg)" href="./otp_winv.html"> Get OTP</a></button -->
+            <!-- <a class="button" onclick="showToast(successmsg)" href="">Get OTP</a>  -->
+      
+                <div class="otp">
+                    <span class="title">OTP Verification</span>
+                    <p class="description">Please enter the code we have sent you. </p>
+                </div>
+                <div class="otp-inputs">
+                    <input type="tel" placeholder="" maxlength="1" name = "dig1">
+                    <input type="tel" placeholder="" maxlength="1" name = "dig2">
+                    <input type="tel" placeholder="" maxlength="1" name = "dig3">
+                    <input type="tel" placeholder="" maxlength="1" name = "dig4">
+                    <input type="tel" placeholder="" maxlength="1" name = "dig5">
+                </div>
+                <br>
+                <input type="submit" class="button" value = "Verify OTP" name = "submit_button" ></input> 
+            <div class="back_to_login"> 
+                <input type="submit" class="button" value = "Back to Login" name = "submit_button" ></input>   
+                <!--a href="./index.html">Back to Login</a -->
+            </div>
+        
+        
+    </div>
+        </form>
+    </div>  
+    <div id="notification">
+        
+    </div>
+
+    <!-- For Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> 
+    <script type="text/javascript">
+        
+        function showToast(msg){
+            let notification = document.getElementById('notification');
+            let successmsg = ' <ion-icon name="checkbox"></ion-icon> OTP Sent Successfully ! ';
+            let toast = document.createElement('div');
+            toast.classList.add('toast');
+            toast.innerHTML = msg;   
+            notification.appendChild(toast); 
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+    function app(){
+
+    
+    return()
+    }
+        
+    </script>
+</body>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+*{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}
+
+body{
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background-image: url(./background-ga2f0b95ff_1920.jpg);
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+
+}
+
+.container{
+    position: relative;
+    height: 600px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 500px;
+    padding-top: 10px;
+    animation: form 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    
+}
+@keyframes form{
+
+    0%{
+        transform: translateY(-10%);
+    }
+}
+.container:hover{
+    transform: scale(1);
+    border-radius: 50px;
+    box-shadow: 0px 0px 30px 1px rgb(0, 0, 0);
+}
+h2 {
+    position: relative;
+    top: -10px;
+    padding: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;  
+}
+h4 {
+    position: relative;
+    top: -20px;
+    padding: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;  
+}
+.input-box{
+    position: relative;
+    top: -15px;
+    width: 310px;
+    margin: 30px 0;
+    border-bottom: 2px solid black;
+}
+
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-weight: bold;
+    pointer-events: none;
+    transition: 0.5s;
+
+}
+
+.input-box input:focus~label,.input-box input:valid~label{
+
+    top: -5px;
+
+}
+.input-box input{
+
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: rgb(0, 0, 0);
+    padding: 0 35px 0 5px;
+    color: #000000;
+}
+.input-box .icon{
+
+    position: absolute;
+    right: 8px;
+    line-height: 58px;
+
+}
+.forgot{
+
+    margin: -15px 0 15px;
+    font-size: 0.9em;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    accent-color: red;
+
+}
+
+.forgot label{
+
+    margin-right: 3px;
+}
+
+.back_to_login a {
+    position: relative;
+    top: 22px;
+    color: rgb(255, 51, 0);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back_to_login a:hover{
+    text-decoration: underline;
+}
+
+.container .button{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -5px;
+    margin: 10px 12px 16px 0px;
+    padding: 10px;
+    background: transparent;
+    color: rgb(7, 7, 7);
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+    transition: 0.2s ease;
+    break-before: 2;
+    
+}
+.container .button a{
+    text-decoration: none;
+    color: #000000;
+}
+.container .button:hover{
+    letter-spacing: 5px;
+    color: black;
+    
+    background: linear-gradient(90deg, rgb(248, 141, 19), rgb(33, 204, 190));
+}
+.toast{
+    display: flex;
+    align-items: center;
+    width: 285px;
+    height: 51px;
+    border-radius: 10PX;
+    position: absolute;
+    top: 10%;
+    left: 41.5%;
+    background: transparent;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-100%);
+    animation: move 0.5s linear forwards;
+}
+@keyframes move{
+
+    100%{
+        transform: translateY(0);
+    }
+}
+.toast::after{
+
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: green;
+    animation: anim 3s linear forwards;
+}
+@keyframes anim{
+
+        100%{
+            width: 0;
+        }
+}
+.toast ion-icon{
+   margin: 0 20px;
+   font-size: 35px;
+   color: green;
+    }
+.toast .message p{
+    position: relative;
+    top: -2px;
+    font-weight: bold;
+
+}
+/*@media (max-width: 360px){
+    .container{
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+    .input-box{
+        width: 290px;
+    }
+}*/
+
+@media (max-width: 300px){
+    .container{
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+    .input-box{
+        width: 200px;
+    }
+    .input-box{
+        position: relative;
+        top: -15px;
+        left: 18px;
+        width: 225px;
+        margin: 30px 0;
+        border-bottom: 2px solid black;
+        justify-content: center;
+        align-items: center;
+    }
+    
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(./background-ga2f0b95ff_1920.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+}
+
+
+
+@keyframes form {
+
+    0% {
+        transform: translateY(-10%);
+    }
+}
+
+.container:hover {
+    transform: scale(1);
+    border-radius: 50px;
+}
+
+.container:hover {
+    box-shadow: 0px 0px 30px 1px rgb(0, 0, 0);
+}
+
+.container .otp .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    position: relative;
+    top: -15px;
+}
+
+.description {
+    position: relative;
+    top: -9px;
+    color: #000000;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.container .otp-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 0px;
+}
+
+.container .otp-inputs input {
+    position: relative;
+    top: 13px;
+    height: 2.0em;
+    width: 2.0em;
+    outline: none;
+    text-align: center;
+    font-size: 1.0em;
+    color: #000000;
+    border-radius: 0.3em;
+    border: 1px solid rgba(0, 0, 0, 0.363);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.container .otp-inputs input:focus {
+    border: 1px solid rgb(0, 255, 221);
+}
+
+.container .verify {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 17px;
+    margin: 20px 34px 20px 34px;
+    padding: 10px;
+    background: transparent;
+    color: rgb(7, 7, 7);
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+    transition: 0.2s ease;
+    break-before: 2;
+    text-decoration: none;
+}
+
+.container .verify:hover {
+    letter-spacing: 5px;
+    color: black;
+    text-decoration: none;
+    background: linear-gradient(90deg, rgb(248, 141, 19), rgb(33, 204, 190));
+}
+
+.container form .close {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    background: transparent;
+    text-decoration: none;
+    color: #000000;
+    height: 30px;
+    width: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .3s ease;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+}
+
+.container form .close:hover {
+    background-color: rgba(255, 0, 0, 0.603);
+}
+
+.container .resend {
+    position: relative;
+    color: #000000;
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: center;
+    top: 30px;
+}
+.container .resend a{
+    position: relative;
+    top: 0px;
+    text-decoration: none;
+    color: rgb(0, 60, 255);
+    cursor: pointer;
+}
+.container .resend a:hover{
+
+    text-decoration: underline;
+}
+@media (max-width: 360px) {
+    .container {
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+
+    .input-box {
+        width: 290px;
+    }
+}
+</style>
+</html>

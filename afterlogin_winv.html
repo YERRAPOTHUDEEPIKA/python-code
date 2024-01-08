@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!--link rel="stylesheet" type="text/css" href="./style.css"-->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container" id="login">
+        <h2 class = "h2">Rental Invoicing &#128142;</h2>
+        <h4>Login</h4>
+        <form id="login-form" action="{{url_for('afterlogin_winv') }}"  method = "POST" >
+            <p>
+                <input type="text" id="username" name="username" placeholder="Username" ><span></span><span></span>
+            </p>
+            <p>
+                <input type="password" id="password" name="password" placeholder="Password" ><span></span><span></span>
+            </p>
+            <p>
+                <input type="submit" name=submit_button id="login" value="Login">
+            </p>
+            <p>
+                <input type="submit" name=submit_button id="fpassword" value="Forgot Password">
+         
+        </form>
+    </div>  
+    <!-- For Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> 
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+*{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}
+
+body{
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background-image: url(/templates/background-ga2f0b95ff_1920.jpg);
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+
+}
+
+.container{
+    position: relative;
+    height: 450px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 400px;
+    padding-top: 10px;
+    animation: form 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    
+}
+@keyframes form{
+
+    0%{
+        transform: translateY(-10%);
+    }
+}
+.container:hover {
+    transform: scale(1 );
+    border-radius: 50px;
+  }
+  
+  .container:hover {
+    box-shadow: 0px 0px 30px 1px rgb(0, 0, 0);
+  }
+
+h2{
+    font-size: 38px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 4px;
+}
+.input-box{
+    position: relative;
+    width: 310px;
+    margin: 30px 0;
+    border-bottom: 2px solid black;
+    background: transparent;
+}
+
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-weight: bold;
+    pointer-events: none;
+    transition: 0.5s;
+
+}
+
+.input-box input:focus~label,.input-box input:valid~label{
+
+    top: -5px;
+
+}
+.input-box input{
+
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: rgb(0, 0, 0);
+    padding: 0 35px 0 5px;
+    color: #000000;
+}
+.input-box .icon{
+
+    position: absolute;
+    right: 8px;
+    line-height: 58px;
+
+}
+.forgot{
+
+    margin: -15px 0 15px;
+    font-size: 0.9em;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    accent-color: red;
+
+}
+
+.forgot label{
+
+    margin-right: 3px;
+}
+
+.forgot a {
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot a:hover{
+    text-decoration: underline;
+}
+
+.container button{
+    
+    width: 100%;
+        margin-top: 20px;
+        padding: 10px;
+        background: transparent;
+        color:rgb(7, 7, 7);
+        border-radius: 15px;
+        font-size: 15px;
+        font-weight: bold;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+        transition: 0.2s linear;
+        break-before: 2;
+}
+.container button:hover{
+    letter-spacing: 5px;
+   
+    background: linear-gradient(90deg, rgb(248, 141, 19), rgb(33, 204, 190));
+}
+
+.container .register{
+    margin: 20px 0 10px;
+    text-align: center;
+    color:rgb(224, 0, 245) ;
+}
+.container .register p a { 
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+}
+.container .register p a:hover{
+    text-decoration: underline;
+}
+
+@media (max-width: 360px){
+    .container{
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+    .input-box{
+        width: 290px;
+    }
+}
+</style>
+</html>

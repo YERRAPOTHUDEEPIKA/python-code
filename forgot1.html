@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Rent Invoice Reset Password</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<!--link rel="stylesheet" href="./style.css"-->
+
+</head>
+<body>
+
+<div id="login-form-wrap">
+  <h4 class = "h1">Rental Invoice Reset Password &#128142;</h4>
+  <form id="forgot-form" action="{{url_for('forgot1') }}"  method = "POST" >
+    
+    <input type="text" id="username" name="fpusername" placeholder="Username" >
+    
+    
+    <input type="email" id="emailid" name="fpemailid" placeholder="Email Id" >
+    
+    <p>
+    <input type="submit" id="mailme" name=submit_button value="Mail me one time password">
+    </p>
+    
+    <input type="password" id="otp" name="otpassword" placeholder="One Time Password" ><span></span><span></span>
+    
+    
+    <input type="password" id="newpassword1" name="newpassword1" placeholder="New Password"><span></span><span></span>
+    
+    
+    <input type="password" id="newpassword2" name="newpassword2" placeholder="Confirm New Password" ><span></span><span></span>
+  
+    <p>
+    <input type="submit" id="newpasswords"  name=submit_button value="Submit">
+    </p>
+    <div class = "grid-container" >
+      <input  type="submit" class = "submit" value = "Exit" name=submit_button></input>
+    </div>
+    {% if session['nouser'] %}
+      <label style="color: red ;">No user name/No such user name</label>
+    {% else %}
+      <label style="color: red ;">&nbsp;</label>
+    {% endif %}
+    {% if session['noemail'] %}
+      <label style="color: red ;">User's email does not match</label>
+    {% else %}
+      <label style="color: red ;">&nbsp;</label>
+    {% endif %}
+    {% if session['nootp'] %}
+      <label style="color: red ;">OTP is wrong or time barred</label>
+    {% else %}
+      <label style="color: red ;">&nbsp;</label>
+    {% endif %}
+    {% if session['nomatch'] %}
+      <label style="color: red ;">Passwords not matching</label>
+    {% else %}
+      <label style="color: red ;">&nbsp;</label>
+    {% endif %}
+    {% if session['sentotp'] %}
+      <label style="color: red ;">Please Check mail for OTP</label>
+    {% else %}
+      <label style="color: red ;">&nbsp;</label>
+    {% endif %}
+  </form>
+  
+</div>
+</body>
+<style>
+
+label{
+  color: blue ; font-size: 15px; padding: 7px 40px 7px 12px;
+  text-align: left;
+  display: inline-block;
+  position:a;
+}
+
+body {
+  background-color: #9f9da7;
+  font-size: 1.6rem;
+  font-family: "Open Sans", sans-serif;
+  color: #2b3e51;
+}
+
+h1 {
+  font-weight: 200;
+  color : blue;
+  text-align: center;
+}
+
+h2 {
+  font-weight: 200;
+  color : blue;
+  text-align: center;
+}
+
+p {
+  position: relative;
+}
+
+a,
+a:link,
+a:visited,
+a:active {
+  color: #3ca9e2;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+a:focus, a:hover,
+a:link:focus,
+a:link:hover,
+a:visited:focus,
+a:visited:hover,
+a:active:focus,
+a:active:hover {
+  color: #329dd5;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+#login-form-wrap {
+  background-color: #fff;
+  width: 35%;
+  margin: 30px auto;
+  text-align: center;
+  padding: 20px 0 0 0;
+  border-radius: 4px;
+  box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
+}
+
+#login-form {
+  padding: 0 60px;
+}
+
+input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  outline: none;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0 0 0 10px;
+  margin: 0;
+  color: #8a8b8e;
+  border: 1px solid #c2c0ca;
+  font-style: normal;
+  font-size: 16px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  position: relative;
+  display: inline-block;
+  background: none;
+}
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #3ca9e2;
+}
+input[type="text"]:focus:invalid,
+input[type="password"]:focus:invalid {
+  color: #cc1e2b;
+  border-color: #cc1e2b;
+}
+input[type="text"]:valid ~ .validation,
+input[type="password"]:valid ~ .validation {
+  display: block;
+  border-color: #0C0;
+}
+input[type="text"]:valid ~ .validation span,
+input[type="password"]:valid ~ .validation span {
+  background: #0C0;
+  position: absolute;
+  border-radius: 6px;
+}
+input[type="text"]:valid ~ .validation span:first-child,
+input[type="password"]:valid ~ .validation span:first-child {
+  top: 30px;
+  left: 14px;
+  width: 20px;
+  height: 3px;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+input[type="text"]:valid ~ .validation span:last-child,
+input[type="password"]:valid ~ .validation span:last-child {
+  top: 35px;
+  left: 8px;
+  width: 11px;
+  height: 3px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.validation {
+  display: none;
+  position: absolute;
+  content: " ";
+  height: 60px;
+  width: 30px;
+  right: 15px;
+  top: 0px;
+}
+
+input[type="submit"] {
+  border: none;
+  background-color: #3ca9e2;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: center;
+}
+input[type="submit"]:hover {
+  background-color: #329dd5;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+#create-account-wrap {
+  background-color: #eeedf1;
+  color: #8a8b8e;
+  font-size: 14px;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 0 0 4px 4px;
+}
+</style>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto Web Wallet</title>
+</head>
+<body>
+    <h1>Crypto Web Wallet</h1>
+    <h2>Name</h2>
+    <input type="text" id="Username"><br>
+    <h2>Password</h2>
+    <input type="text" id="Password"><br>
+
+    <h3>Generate Wallet</h3>
+    <button id="generateWallet">Generate Wallet</button>
+
+    <h2>Send Transaction</h2>
+    <label for="recipient">Recipient:</label>
+    <input type="text" id="recipient" placeholder="Recipient address"><br>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" placeholder="Amount"><br>
+
+    <button id="sendTransaction">Send Transaction</button>
+
+    <h2>Transaction History</h2>
+    <ul id="transactionHistory"></ul>
+
+    <script>
+        document.getElementById("generateWallet").addEventListener("click", function () {
+            // JavaScript code to generate a wallet
+            alert("Wallet generated!");
+        });
+
+        document.getElementById("sendTransaction").addEventListener("click", function () {
+            const recipient = document.getElementById("recipient").value;
+            const amount = document.getElementById("amount").value;
+
+            // JavaScript code to send a transaction
+            alert("Transaction sent!");
+        });
+    </script>
+</body>
+</html>

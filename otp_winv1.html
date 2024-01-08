@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="./style_otp.css">
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <a class="close" href="./forgot.html"> X </a>
+            <div class="otp">
+                <span class="title">OTP Verification</span>
+                <p class="description">Please enter the code we have sent you. </p>
+            </div>
+            <div class="otp-inputs">
+                <input type="tel" placeholder="" maxlength="1">
+                <input type="tel" placeholder="" maxlength="1">
+                <input type="tel" placeholder="" maxlength="1">
+                <input type="tel" placeholder="" maxlength="1">
+            </div>
+            <a class="verify" href="./resetpasssword.html">Verify</a>
+            <p class="resend">You don't receive the code ? <a class="resend" href=""> Re-Send</a></p>
+        </form>
+    </div>
+    <script>
+        let notification = document.getElementById('notification');
+        let successmsg = ' <ion-icon name="checkbox"></ion-icon> OTP Sent Successfully ! ';
+        function showToast(msg){
+            let toast = document.createElement('div');
+            toast.classList.add('toast');
+            toast.innerHTML = msg;   
+            notification.appendChild(toast); 
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(./background-ga2f0b95ff_1920.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 368px;
+    overflow: hidden;
+    padding: 20px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 400px;
+    padding-top: 10px;
+    animation: form 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+
+}
+
+@keyframes form {
+
+    0% {
+        transform: translateY(-10%);
+    }
+}
+
+.container:hover {
+    transform: scale(1);
+    border-radius: 50px;
+}
+
+.container:hover {
+    box-shadow: 0px 0px 30px 1px rgb(0, 0, 0);
+}
+
+.container .otp .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    position: relative;
+    top: -15px;
+}
+
+.description {
+    position: relative;
+    top: -9px;
+    color: #000000;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.container .otp-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.container .otp-inputs input {
+    position: relative;
+    top: 13px;
+    height: 2.5em;
+    width: 2.5em;
+    outline: none;
+    text-align: center;
+    font-size: 1.5em;
+    color: #000000;
+    border-radius: 0.3em;
+    border: 1px solid rgba(0, 0, 0, 0.363);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.container .otp-inputs input:focus {
+    border: 1px solid rgb(0, 255, 221);
+}
+
+.container .verify {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 17px;
+    margin: 20px 34px 20px 34px;
+    padding: 10px;
+    background: transparent;
+    color: rgb(7, 7, 7);
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+    transition: 0.2s ease;
+    break-before: 2;
+    text-decoration: none;
+}
+
+.container .verify:hover {
+    letter-spacing: 5px;
+    color: black;
+    text-decoration: none;
+    background: linear-gradient(90deg, rgb(248, 141, 19), rgb(33, 204, 190));
+}
+
+.container form .close {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    background: transparent;
+    text-decoration: none;
+    color: #000000;
+    height: 30px;
+    width: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .3s ease;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+}
+
+.container form .close:hover {
+    background-color: rgba(255, 0, 0, 0.603);
+}
+
+.container .resend {
+    position: relative;
+    color: #000000;
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: center;
+    top: 30px;
+}
+.container .resend a{
+    position: relative;
+    top: 0px;
+    text-decoration: none;
+    color: rgb(0, 60, 255);
+    cursor: pointer;
+}
+.container .resend a:hover{
+
+    text-decoration: underline;
+}
+@media (max-width: 360px) {
+    .container {
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+
+    .input-box {
+        width: 290px;
+    }
+}
+</style>
+</html>

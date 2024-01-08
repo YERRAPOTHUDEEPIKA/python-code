@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Invoicing Details</title>
+    <!--link rel="stylesheet" href="./style.css"-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <form class = "form" id = "work-inv-generate" action="{{url_for('work_detail_generate') }}"  method = "POST" >
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Work for External Organizations </h3>
+            </div>
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <span style="color:white;">Work Entry Number</span>
+                        <div class="input-group mb-3 ">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-file-invoice"></i></span>
+                            <input readonly type="text" class="form-control" placeholder="Entry Number" name = "work_entry_number"
+                                id="workinvnum" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <span style="color:white;">Resource Name</span>
+                        <div class="input-group mb-3 ">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-file-invoice"></i></span>
+                            <input readonly type="text" class="form-control" placeholder="Resource name" name = "resource_name"
+                                id="workinvnum" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                        </div>
+                    </div>
+                    
+                </div>
+                <span hidden id ="store_rate"></span>
+                <span hidden id ="store_hr"></span>
+                <span hidden id ="store_mts"></span>
+                <div class="table-responsive">
+                    <table class="table">
+                      <thead class="position-sticky">
+                        <tr>
+                          <th scope="col">S.No</th>
+                          <th scope="col">From Date</th>
+                          <th scope="col">From Time</th>
+                          <th scope="col">To Date</th>
+                          <th scope="col">To Time</th>
+                          <th scope="col">Party Worked for</th>
+                          <th scope="col">Work Description</th>
+                          <th scope="col">
+                            <button type="button" class="btn btn-success" onclick="BtnAdd()">Add</button>
+                      </thead>
+                      <tbody id="TBody">
+                       
+                        <tr id="TRow" class="d-none">
+                          <td class="serial"></td>
+                          <td>
+                            <input type="date" class="form-control" placeholder="From Date"  name = "work_line_from_date[]" aria-label="Username"
+                                aria-describedby="basic-addon1"   ></input>
+                          </td>
+                          <td>
+                            <input type="time" class="form-control" placeholder="From Time"  name = "work_line_from_time[]" aria-label="Username"
+                                aria-describedby="basic-addon1"   ></input>
+                          </td>
+                          <td>
+                            <input type="date" class="form-control" placeholder="To Date"  name = "work_line_to_date[]" aria-label="Username"
+                                aria-describedby="basic-addon1"   ></input>
+                          </td>
+                          <td>
+                            <input type="time" class="form-control" placeholder="To Time"  name = "work_line_to_time[]" aria-label="Username"
+                                aria-describedby="basic-addon1"   ></input>
+                          </td>
+                          <td>
+                            <select required class="form-select" id = "selparty" aria-label="Default select example" name = "selparty[]" >
+                                
+                                {% for party in session['parties'] %}
+                                    <option value="{{party}}">{{party}}</option>
+                                {% endfor %}
+                            </select>
+                          </td>
+                         
+                          <td>
+                           <textarea  id = "detail_work_desc"  class="form-control" placeholder="Work Description
+                            " aria-label="Username" aria-describedby="basic-addon1" name = "detail_work_desc"></textarea>
+                          </td>
+                          <td>
+                                <button type="button" class="btn btn-danger" onclick="BtnDel(this)"><i class="fa-solid fa-xmark"></i></button></th>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <input  type="submit"  class="btn btn-success" value = "Create Invoice" name=wrkinv_submit_botton></input>
+                    <input id="exitbutton" type="submit" style = "background-color:red;" class="btn btn-success" value = "Exit" onclick="exitclick()" name=wrkinv_submit_botton></input>
+                  </div>
+                    </div>
+
+                </div>
+            </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+      var passed_emprate;
+      var passed_inv_serial;
+      var count = 1;
+      var line_date_array = [] ;
+      function BtnAdd(){
+        if (count <= 15) {
+          var add =  $("#TRow").clone().appendTo("#TBody");
+          $(add).find("input").val('');
+          $(add).removeClass("d-none");
+          $(add).find(".serial").text(count);
+          count++;
+        }
+        else
+        {
+            window.alert("Not more than 15 line items per invoice, please");
+        }
+      }
+   
+      function BtnDel(add){
+        $(add).parent().parent().remove();
+        $(add).find(".serial").text(count);
+      count--;
+      }
+
+     
+       
+       function whenloading() {
+        
+         
+        }
+        
+
+        window.onload = whenloading;
+    </script>
+
+</body>
+<style type="text/css">
+    
+.card-body{
+
+    background-color: rgb(0, 0, 0);
+    
+}
+.input-group{
+
+    box-shadow: 0 7px 25px rgba(255, 255, 255, 0.387);
+}
+
+
+.table-responsive{
+
+    border-radius: 5px;
+    box-shadow: 0 7px 25px rgba(255, 255, 255, 0.467);
+    max-height: 650px;
+    table-layout: fixed;
+    border-collapse:collapse;
+}
+thead tr, th{
+    position:sticky;
+    top: 0 ;
+    background-color:#e4e4e4;
+    color: #000000;
+    font-size: 17px;
+    text-align: center;
+    vertical-align: super;
+}
+
+td{
+    text-align: center;
+    vertical-align: super;
+    color: white;
+}
+
+tr:hover td{
+    color: #ffffff;
+    cursor: pointer;
+    background:#606060
+}
+
+.card .card-header{
+    background-color:#dad9d9;
+    box-shadow: 0 7px 25px rgb(255, 255, 255);
+}
+.input-group input:focus-visible {
+
+    outline: 4px solid rgb(20, 127, 220);
+    border-radius: 5px; 
+}
+.input-group select:focus-visible {
+
+    outline: 4px solid rgb(20, 127, 220);
+    border-radius: 5px; 
+}
+
+@media (max-width:991px){
+    .card-body{
+
+        overflow-x: auto;
+    }
+    .table{
+       
+        overflow-x: auto;
+    }
+
+    .input-group .form-control{
+
+        max-width: 100%;
+        
+    }
+}
+
+</style>
+</html>

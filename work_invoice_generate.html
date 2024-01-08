@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Invoicing</title>
+    <!--link rel="stylesheet" href="./style.css"-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <form class = "form" id = "work-inv-generate" action="{{url_for('work_invoice_generate') }}"  method = "POST" >
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Work Invoicing</h3>
+            </div>
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <span style="color:white;">Invoice Number</span>
+                        <div class="input-group mb-3 ">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-file-invoice"></i></span>
+                            <input readonly type="text" class="form-control" placeholder="Invoice Number" name = "invoice_number"
+                                id="workinvnum" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <span style="color:white;">Party</span>
+                        <div class="input-group mb-3 ">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-people-group"></i></span>
+                            <select required class="form-select" value = "Unselected" id = "party_str" aria-label="Default select example" name = "sel_party" onchange="split_party_string(this)">
+                                <option selected>Party to be Invoiced</option>
+                                {% for party in session['partylist'] %}
+                                    <option value="{{party}}">{{party}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <span style="color:white;">Invoice Date</span>
+                        <div class="input-group mb-3 ">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-calendar-days"></i></span>
+                            <input required id = "invdate" type="date" class="form-control" placeholder="Invoice Date" aria-label="Username"
+                                aria-describedby="basic-addon1" name = "work_invoice_date">
+                        </div>
+                        <span style="color:white;">Party GST No.</span>
+                        <div class="input-group mb-3 ">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-file-invoice-dollar"></i></i></span>
+                            <input readonly id = "party_gst_no" type="text" class="form-control" placeholder="Party GST Number
+                            " aria-label="Username" aria-describedby="basic-addon1" name = "party_gstno">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <span  style="width:auto;color: white;font-weight:bold;" id = "selected_party"></span>
+                    </div>
+                    <div class="col-6">
+                        <span style="color:white;">Work Description</span>
+                        <div class="input-group mb-3 ">
+
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-file-invoice-dollar"></i></i></span>
+                            <textarea  id = "work_description"  class="form-control" placeholder="Work Description
+                            " aria-label="Username" aria-describedby="basic-addon1" name = "work_desc"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <span hidden id ="store_rate"></span>
+                <span hidden id ="store_hr"></span>
+                <span hidden id ="store_mts"></span>
+                <div class="table-responsive">
+                    <table class="table">
+                      <thead class="position-sticky">
+                        <tr>
+                          <th scope="col">S.No</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Employee</th>
+                          <!--th scope="col">HSN/SAC</th-->
+                          <th scope="col">Rate</th>
+                          <th scope="col">Hours</th>
+                          <th scope="col">Mts</th>
+                          
+                          <!--th scope="col">Amount</th>
+                          <th scope="col">SGST%</th>
+                          <th scope="col">CGST%</th-->
+                          <th scope="col">Amount</th>
+                          <th scope="col">
+                            <button type="button" class="btn btn-success" onclick="BtnAdd()">Add</button>
+                      </thead>
+                      <tbody id="TBody">
+                       
+                        <tr id="TRow" class="d-none">
+                          <td class="serial"></td>
+                          <td>
+                            <input type="date" class="form-control" placeholder="Date"  name = "line_date[]" aria-label="Username"
+                                aria-describedby="basic-addon1"   ></input>
+                          </td>
+                          <td>
+                    
+                            <select required class="form-select" id = "selempname" aria-label="Default select example" name = "selempname[]" onchange="get_emprate(this)">
+                                
+                                {% for emp in session['empname'] %}
+                                    <option value="{{emp}}">{{emp}}</option>
+                                {% endfor %}
+                            </select>
+                
+                          </td>
+                          <td>
+                            <input readonly required id ="line_rate" type="text" class="form-control" placeholder="Rate
+                            " aria-label="Username" aria-describedby="basic-addon1" name = line_rate[] onclick="show_rate(this)">
+                          </td>
+                         
+                          <td>
+                            <input required id ="line_hour" type="number" class="form-control" placeholder="Hours" aria-label="Username" aria-describedby="basic-addon1" name = hours[] min="0" max="744" value = "0" onchange="hr_change(this)">
+                          </td>
+                          <td>
+                            <input required id = "line_mts"   type="text" class="form-control" placeholder="Mts
+                            " aria-label="Username" aria-describedby="basic-addon1" name = mts[] min="0" max="59" value = "0" onchange="mts_change(this)">
+                          </td>
+                        
+                         
+                          <td>
+                            <input readonly required id="line_amount" type="text" class="form-control" placeholder="Amount
+                            " aria-label="Username" aria-describedby="basic-addon1"  name = line_amount[] onclick="calc_line_amount(this)">
+                          </td>
+                          <td>
+                                <button type="button" class="btn btn-danger" onclick="BtnDel(this)"><i class="fa-solid fa-xmark"></i></button></th>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <input  type="submit"  class="btn btn-success" value = "Create Invoice" name=wrkinv_submit_botton></input>
+                    <input id="exitbutton" type="submit" style = "background-color:red;" class="btn btn-success" value = "Exit" onclick="exitclick()" name=wrkinv_submit_botton></input>
+                  </div>
+                    </div>
+
+                </div>
+            </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+      var passed_emprate;
+      var passed_inv_serial;
+      var count = 1;
+      var line_date_array = [] ;
+      function BtnAdd(){
+        if (count <= 15) {
+          var add =  $("#TRow").clone().appendTo("#TBody");
+          $(add).find("input").val('');
+          $(add).removeClass("d-none");
+          $(add).find(".serial").text(count);
+          count++;
+        }
+        else
+        {
+            window.alert("Not more than 15 line items per invoice, please");
+        }
+      }
+   
+      function BtnDel(add){
+        $(add).parent().parent().remove();
+        $(add).find(".serial").text(count);
+      count--;
+      }
+
+      function split_party_string(partstr){
+        var party_str_array = document.getElementById('party_str').value.split("|");
+        let party_name = party_str_array[0];
+        let party_state = party_str_array[1];
+        let party_gst = party_str_array[2];
+        /*window.alert(party_gst);*/
+        document.getElementById('party_gst_no').value = party_gst;
+        document.getElementById('selected_party').innerHTML = "Party: "+party_name+" of "+party_state;
+      }
+
+      function get_emprate(empstr){
+        var elemnum = empstr.selectedIndex;
+        var rateid = document.getElementById ('store_rate');
+        rateid.innerHTML = passed_emprate[elemnum];
+        
+      }
+     
+
+      function show_rate(ratestr){
+        ratestr.value = document.getElementById ('store_rate').innerHTML;
+      }
+
+      function hr_change(hrstr){
+        var hrid = document.getElementById ('store_hr');
+        hrid.innerHTML = hrstr.value;
+      }
+      function mts_change(mtsstr){
+        var mtsid = document.getElementById ('store_mts');
+        mtsid.innerHTML = mtsstr.value;
+      }
+      function calc_line_amount(amtstr){
+        var hrvalue =  document.getElementById('store_hr').innerHTML;
+        var mtsvalue =  document.getElementById('store_mts').innerHTML;
+        var ratevalue = document.getElementById('store_rate').innerHTML;
+        amtstr.value = Math.round(parseFloat((hrvalue * ratevalue) + ((ratevalue/60.0)*mtsvalue)));
+      }
+       function exitclick(extbut){
+    
+        document.getElementById("invdate").removeAttribute("required");
+       }
+       
+       function whenloading() {
+        
+         passed_emprate = {{ passemprate | tojson }}; 
+         var passed_inv_serial = {{passinv_serial}};
+         var current_Year = new Date().getFullYear() ;
+         curryear = current_Year - 2000;
+         var next_Year = current_Year - 2000 + 1;
+         var prev_Year = current_Year -2000 - 1; 
+         var current_Month = new Date().getMonth();
+         if (current_Month < 4) {
+            finyear = prev_Year.toString().concat("-",curryear.toString());
+         }
+         else {
+            finyear = curryear.toString().concat("-",next_Year.toString());
+         }
+         var prefix_str = "KS/TN-";
+         var display_inv_no = prefix_str.concat( passed_inv_serial.toString().padStart(3,"0"),"-",finyear);
+         document.getElementById('workinvnum').value = display_inv_no;
+        
+        }
+        
+
+        window.onload = whenloading;
+    </script>
+
+</body>
+<style type="text/css">
+    
+.card-body{
+
+    background-color: rgb(0, 0, 0);
+    
+}
+.input-group{
+
+    box-shadow: 0 7px 25px rgba(255, 255, 255, 0.387);
+}
+
+
+.table-responsive{
+
+    border-radius: 5px;
+    box-shadow: 0 7px 25px rgba(255, 255, 255, 0.467);
+    max-height: 650px;
+    table-layout: fixed;
+    border-collapse:collapse;
+}
+thead tr, th{
+    position:sticky;
+    top: 0 ;
+    background-color:#e4e4e4;
+    color: #000000;
+    font-size: 17px;
+    text-align: center;
+    vertical-align: super;
+}
+
+td{
+    text-align: center;
+    vertical-align: super;
+    color: white;
+}
+
+tr:hover td{
+    color: #ffffff;
+    cursor: pointer;
+    background:#606060
+}
+
+.card .card-header{
+    background-color:#dad9d9;
+    box-shadow: 0 7px 25px rgb(255, 255, 255);
+}
+.input-group input:focus-visible {
+
+    outline: 4px solid rgb(20, 127, 220);
+    border-radius: 5px; 
+}
+.input-group select:focus-visible {
+
+    outline: 4px solid rgb(20, 127, 220);
+    border-radius: 5px; 
+}
+
+@media (max-width:991px){
+    .card-body{
+
+        overflow-x: auto;
+    }
+    .table{
+       
+        overflow-x: auto;
+    }
+
+    .input-group .form-control{
+
+        max-width: 100%;
+        
+    }
+}
+
+</style>
+</html>
